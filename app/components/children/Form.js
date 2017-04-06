@@ -51,6 +51,7 @@ handleReset(){
   // Here we describe this component's render method
   render() {
     return (
+    <div className="col-xs-12">
     <div className="panel panel-default">
           <div className="panel-heading">Search Parameters</div>
           <div className="panel-body">
@@ -94,6 +95,7 @@ handleReset(){
           </form>
            </div>
           {/*<!-- Add Panel Footer Here -->*/}
+        </div>
         </div>
     );
   }

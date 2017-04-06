@@ -26,6 +26,7 @@ class Main extends React.Component {
       endYrSearch:"", 
       saved:[]
     };
+    this.handleSubmit= this.handleSubmit.bind(this);
   }
 
   // The moment the page renders get the History
@@ -90,8 +91,7 @@ class Main extends React.Component {
 		alert("Please enter a topic.");
     } else{
       var topicInput = this.state.topic.trim();
-      this.setState({topic: topicInput
-    });
+      this.setState({topic: topicInput});
    
 	};
     var beginDateInput = this.state.startYr.trim();
@@ -103,33 +103,37 @@ class Main extends React.Component {
     var year = date.getFullYear();
 
 //  //set beginDate
+    let searchState = {};
+
     if(beginDateNumber && 1851 <= beginDateNumber &&  beginDateNumber <= year && beginDateNumber <= endDateNumber){
      var beginDateString = beginDateInput +"0101";
-    this.setState({startYrSearch:beginDateString});
+    searchState.startYrSearch = beginDateString;
     	// beginDate = beginDateInput +"0101";
     	} else {
     		alert("Beginning date must be before ending date.");
     	};
 
     if(endDateNumber && 1851 <= endDateNumber &&  endDateNumber <= year) {
-   	    this.setState({endYrSearch:endDateInput +"1231"});
+   	    searchState.endYrSearch = endDateInput +"1231"
      	// endDate = endDate +"1231";
    	} else {
     			alert("End date must be after start date and no later than this year.");
     };
 
     console.log(this.state);
-    helpers.runQuery(this.state).then(function(res) {
+    this.setState(searchState, ()=>{
+          helpers.runQuery(this.state).then(function(res) {
       if (res) {
-        console.log( res);
-       
         this.setState({ results: res.data.response.docs});
+        Results.displayArticles(this.state.results);
       }
 
     // Query.runQuery(this.state).then(function(response) {
     //   console.log(response);
     // });
-  }.bind(this));
+       }.bind(this));
+    })
+
   }
   // This function allows childrens to update the parent.
   setTerm(obj) {
@@ -145,33 +149,20 @@ class Main extends React.Component {
            <h1>New York Times Article Scrubber</h1>
          </div>
 
-         <div className="col-md-12">
+         <div className="row">
 
            <Form mainState={this.state} handleSubmit={this.handleSubmit.bind(this)} setTerm={this.setTerm.bind(this)} />
 
          </div>
 
     
+          {/*<div className="row">
 
+            <Results mainArticles={this.state.articles}  setTerm={this.setTerm.bind(this)} />
 
-             <div className="col-lg-12">
-               <div className="panel panel-primary">
-                 <div className="panel-heading"> <h3 className="panel-title">Results</h3> </div>
-                 <div className="panel-body">  {this.props.children}  </div>
-
-               </div>
-             </div>
-
-    </div>
-    
-    
-
-    
-    
-    
-    
-    
-    );
+          </div>*/}
+        </div>
+     );
   }
 };
 
