@@ -23,6 +23,7 @@ var helpers = {
       // If get get a result, return that result's formatted address property
       if (result) {
         console.log(result);
+        result =result.data.response.docs.slice(0,5);
         return result;
       }
       // If we don't get any results, return an empty string

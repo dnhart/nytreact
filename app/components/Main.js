@@ -3,7 +3,7 @@ var React = require("react");
 
 // Here we include all of the sub-components
 var Form = require("./children/Form");
-var Results = require("./children/Results");
+import Results from "./children/Results";
 var History = require("./children/History");
 
 // Helper for making AJAX requests to our API
@@ -21,7 +21,7 @@ class Main extends React.Component {
       topic: "",
       startYr: "",
       endYr: "" ,
-      results:"",
+      res:"",
       startYrSearch: "",
       endYrSearch:"", 
       saved:[]
@@ -124,8 +124,8 @@ class Main extends React.Component {
     this.setState(searchState, ()=>{
           helpers.runQuery(this.state).then(function(res) {
       if (res) {
-        this.setState({ results: res.data.response.docs});
-        Results.displayArticles(this.state.results);
+        this.setState({res});
+        // Results.renderContainer();
       }
 
     // Query.runQuery(this.state).then(function(response) {
@@ -156,11 +156,11 @@ class Main extends React.Component {
          </div>
 
     
-          {/*<div className="row">
+          <div className="row">
 
-            <Results mainArticles={this.state.articles}  setTerm={this.setTerm.bind(this)} />
+            <Results res={this.state.res}  setTerm={this.setTerm.bind(this)} />
 
-          </div>*/}
+          </div>
         </div>
      );
   }
